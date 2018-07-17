@@ -1,0 +1,65 @@
+/*
+Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+
+Example 1:
+
+Input: "babad"
+Output: "bab"
+Note: "aba" is also a valid answer.
+Example 2:
+
+Input: "cbbd"
+Output: "bb"
+*/
+package main
+
+import "fmt"
+
+func longestPalindrome(s string) string {
+	if len(s) == 0 {
+		return ""
+	}
+	maxStr := ""
+	maxLen := -1
+	length := len(s)
+
+	for i := 0; i < length; i++ {
+		tempStr := extraStr(s, i, i)
+		if len(tempStr) > maxLen {
+			maxLen, maxStr = len(tempStr), tempStr
+		}
+
+		if i+1 < length {
+			tempStr = extraStr(s, i, i+1)
+			if len(tempStr) > maxLen {
+				maxLen, maxStr = len(tempStr), tempStr
+			}
+		}
+	}
+
+	return maxStr
+}
+
+func extraStr(str string, i, j int) string {
+	max := -1
+	for i >= 0 && j < len(str) && str[i] == str[j] {
+		max = j - i + 1
+		i--
+		j++
+	}
+
+	if max == -1 {
+		return ""
+	}
+	return str[i+1 : i+1+max]
+}
+
+func main() {
+	fmt.Println(longestPalindrome("a"))
+	fmt.Println(longestPalindrome("babad"))
+	fmt.Println(longestPalindrome("cbbd"))
+	fmt.Println(longestPalindrome("abcdasdfghjkldcba"))
+	fmt.Println(longestPalindrome("abacddcaba"))
+	fmt.Println(longestPalindrome("abacdaba"))
+	fmt.Println(longestPalindrome("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"))
+}
